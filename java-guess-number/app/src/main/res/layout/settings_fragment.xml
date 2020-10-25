@@ -28,11 +28,33 @@
 
             <SeekBar
                 android:id="@+id/maxRollSb"
-                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:max="10"
+                android:max="9999"
                 android:progress="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/maxRollValueInfoTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/tv_current_value_text"
+                    android:textSize="17sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/maxRollValueTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -50,11 +72,34 @@
 
             <SeekBar
                 android:id="@+id/maxGuessesSb"
-                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:max="10"
+                android:max="49"
                 android:progress="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/maxGuessesValueInfoTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/tv_current_value_text"
+                    android:textSize="17sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/maxGuessesValueTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

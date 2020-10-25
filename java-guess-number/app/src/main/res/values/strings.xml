@@ -4,6 +4,7 @@
     <string name="btn_make_guess_text">Check</string>
     <string name="tv_game_state_text_default">Game not started</string>
     <string name="et_guess_number_hint">Non negative integer</string>
-    <string name="tv_num_to_fail_text">Max guesses</string>
+    <string name="tv_num_to_fail_text">Maximum guesses</string>
     <string name="tv_max_roll_text">Maximum roll value</string>
+    <string name="tv_current_value_text">Current value:</string>
 </resources>

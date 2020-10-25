@@ -28,30 +28,30 @@ public class GameMaster {
                 case BadInput:
                     return "Your input is incorrect. Try again.";
                 case GameLost:
-                    return  "Your guess is wrong and no more guess are allowed. You lost!";
+                    return "Your guess is wrong and no more guess are allowed. You lost!";
                 case GameEnd:
-                    return  "The game has ended. No more guess are allowed.";
+                    return "The game has ended. No more guess are allowed.";
             }
             return "You have broken the program ;)";
         }
     }
 
     private GameState _gameState;
-    private final long _guessRightLimit;
-    private final long _guessTarget;
+    private final int _guessRightLimit;
+    private final int _guessTarget;
     private int _guessesToFail;
 
-    public GameMaster(long guessRightLimit, int guessesToFail) {
+    public GameMaster(int guessRightLimit, int guessesToFail) {
         if (guessRightLimit < 1 || guessesToFail < 1) {
             throw new InvalidParameterException("Disallowed game settings. Game cannot be started.");
         }
         _guessRightLimit = guessRightLimit;
         _guessesToFail = guessesToFail;
-        _guessTarget = (long) Math.ceil(Math.random() * _guessRightLimit);
+        _guessTarget = (int) Math.ceil(Math.random() * _guessRightLimit);
         _gameState = GameState.Running;
     }
 
-    public GuessAnswer makeGuess(long guess) {
+    public GuessAnswer makeGuess(int guess) {
         if (_gameState.equals(GameState.Finished)) {
             return GuessAnswer.GameEnd;
         }
