@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Guess Number</string>
+    <string name="tv_game_feedback_text_default">Make a guess!</string>
+    <string name="btn_make_guess_text">Check</string>
+    <string name="tv_game_state_text_default">Game not started</string>
+    <string name="et_guess_number_hint">Non negative integer</string>
+    <string name="tv_num_to_fail_text">Max guesses</string>
+    <string name="tv_max_roll_text">Maximum roll value</string>
 </resources>
