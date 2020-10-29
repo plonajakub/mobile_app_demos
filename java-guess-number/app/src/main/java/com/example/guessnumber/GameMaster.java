@@ -4,41 +4,10 @@ import java.security.InvalidParameterException;
 
 public class GameMaster {
 
-    public enum GameState {
-        Running,
-        Finished
-    }
-
-    public enum GuessAnswer {
-        Lower,
-        Higher,
-        Equal,
-        BadInput,
-        GameLost,
-        GameEnd;
-        @Override
-        public String toString() {
-            switch (this) {
-                case Lower:
-                    return "Your guess is lower than the target.";
-                case Higher:
-                    return "Your guess is higher than the target.";
-                case Equal:
-                    return "Your guess is correct. You won!";
-                case BadInput:
-                    return "Your input is incorrect. Try again.";
-                case GameLost:
-                    return "Your guess is wrong and no more guess are allowed. You lost!";
-                case GameEnd:
-                    return "The game has ended. No more guess are allowed.";
-            }
-            return "You have broken the program ;)";
-        }
-    }
-
-    private GameState _gameState;
     private final int _guessRightLimit;
     private final int _guessTarget;
+    private final int _maxGuesses;
+    private GameState _gameState;
     private int _guessesToFail;
 
     public GameMaster(int guessRightLimit, int guessesToFail) {
@@ -46,9 +15,18 @@ public class GameMaster {
             throw new InvalidParameterException("Disallowed game settings. Game cannot be started.");
         }
         _guessRightLimit = guessRightLimit;
+        _maxGuesses = guessesToFail;
         _guessesToFail = guessesToFail;
         _guessTarget = (int) Math.ceil(Math.random() * _guessRightLimit);
         _gameState = GameState.Running;
+    }
+
+    public int getGuessRightLimit() {
+        return _guessRightLimit;
+    }
+
+    public int getMaxGuesses() {
+        return _maxGuesses;
     }
 
     public GuessAnswer makeGuess(int guess) {
@@ -80,5 +58,55 @@ public class GameMaster {
 
     public int getGuessesToFail() {
         return _guessesToFail;
+    }
+
+    public GameState getGameState() {
+        return _gameState;
+    }
+
+    public enum GameState {
+        NotStarted,
+        Running,
+        Finished;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case NotStarted:
+                    return "Game not started yet";
+                case Running:
+                    return "Game in progress...";
+                case Finished:
+                    return "Game has finished!";
+            }
+            return "It is impossible";
+        }
+    }
+
+    public enum GuessAnswer {
+        Lower,
+        Higher,
+        Equal,
+        BadInput,
+        GameLost,
+        GameEnd;
+        @Override
+        public String toString() {
+            switch (this) {
+                case Lower:
+                    return "Your guess is lower than the target.";
+                case Higher:
+                    return "Your guess is higher than the target.";
+                case Equal:
+                    return "You won!";
+                case BadInput:
+                    return "Your input is incorrect. Try again.";
+                case GameLost:
+                    return "You lost!";
+                case GameEnd:
+                    return "The game has ended. ";
+            }
+            return "You have broken the program ;)";
+        }
     }
 }

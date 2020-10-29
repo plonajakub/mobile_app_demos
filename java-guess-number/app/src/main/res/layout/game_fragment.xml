@@ -8,9 +8,8 @@
         android:id="@+id/gameStateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
         android:text="@string/tv_game_state_text_default"
-        android:textSize="40sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/gameFeedbackTv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,9 +20,9 @@
         android:id="@+id/gameFeedbackTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="35dp"
         android:text="@string/tv_game_feedback_text_default"
-        android:textSize="24sp"
+        android:textSize="21sp"
         app:layout_constraintBottom_toTopOf="@+id/inputGuessEt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,26 +32,40 @@
         android:id="@+id/inputGuessEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="@string/et_guess_number_hint"
         android:importantForAutofill="no"
         android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/makeGuessBtn"
+        app:layout_constraintBottom_toTopOf="@id/buttonsContainerLl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameFeedbackTv" />
 
-    <Button
-        android:id="@+id/makeGuessBtn"
+    <LinearLayout
+        android:id="@+id/buttonsContainerLl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
-        android:text="@string/btn_make_guess_text"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputGuessEt" />
+        app:layout_constraintTop_toBottomOf="@+id/inputGuessEt">
+
+        <Button
+            android:id="@+id/makeGuessBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_make_guess_text" />
+
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_start_new_game" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
