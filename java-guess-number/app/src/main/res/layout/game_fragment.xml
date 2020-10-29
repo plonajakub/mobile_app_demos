@@ -36,6 +36,8 @@
         android:hint="@string/et_guess_number_hint"
         android:importantForAutofill="no"
         android:inputType="numberSigned"
+        android:gravity="center"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@id/buttonsContainerLl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
