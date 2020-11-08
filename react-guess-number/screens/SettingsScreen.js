@@ -1,28 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SliderWithInfo from '../components/SliderWithInfo';
+import GameMaster from '../logic/GameMaster';
 
-export default settingsScreen = () => {
+export default settingsScreen = (props) => {
+    const [maxRoll, setMaxRoll] = useState(GameMaster.defaultGuessRighLimit);
+    const [maxGuesses, setMaxGuesses] = useState(GameMaster.defaultGuessesToFail);
+    const maxRollChanged = (value) => {
+        setMaxRoll(value);
+        props.gameMasterRef.current = new GameMaster(value, maxGuesses);
+        console.log(`New maxRoll set: ${value}`);
+    }
+    const maxGuessesChanged = (value) => {
+        setMaxGuesses(value);
+        props.gameMasterRef.current = new GameMaster(maxRoll, value);
+        console.log(`New maxGuesses set: ${value}`);
+    }
     return (
         <View style={styles.rootContainer}>
-            
+
             <View style={styles.settingsTextContainer}>
-                <Text style={styles.settingsText}> Settings</Text>
+                <Text style={styles.settingsText}>Settings</Text>
             </View>
 
             <View style={styles.settingsMargin}>
                 <View style={styles.sliderMargin}>
                     <SliderWithInfo title='Maximum roll value'
                         minValue={1}
-                        maxValue={10000}
-                        onSlidingComplete={value => console.log(`Maximum roll value ${value}`)}
+                        initialValue={GameMaster.defaultGuessRighLimit}
+                        maxValue={1000}
+                        onSlidingComplete={maxRollChanged}
                     ></SliderWithInfo>
                 </View>
                 <View style={styles.sliderMargin}>
                     <SliderWithInfo title='Maximum guesses'
                         minValue={1}
+                        initialValue={GameMaster.defaultGuessesToFail}
                         maxValue={50}
-                        onSlidingComplete={value => console.log(`Maximum guesses value ${value}`)}
+                        onSlidingComplete={maxGuessesChanged}
                     ></SliderWithInfo>
                 </View>
             </View>

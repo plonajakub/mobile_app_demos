@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 
-export default sliderWithInfo = ({ title, minValue, maxValue, onSlidingComplete }) => {
-    const [value, setValue] = useState(minValue);
+export default sliderWithInfo = ({ title, minValue, initialValue, maxValue, onSlidingComplete }) => {
+    const [value, setValue] = useState(initialValue);
     return (
         <View style={styles.baseContainer}>
 
@@ -16,7 +16,7 @@ export default sliderWithInfo = ({ title, minValue, maxValue, onSlidingComplete 
                 style={styles.slider}
                 minimumValue={minValue}
                 maximumValue={maxValue}
-                value={minValue}
+                value={initialValue}
                 onSlidingComplete={value => onSlidingComplete(value)}
                 onValueChange={value => setValue(value)}
             />
