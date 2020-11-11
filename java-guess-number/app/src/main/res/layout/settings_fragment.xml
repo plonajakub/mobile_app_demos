@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/keyboard_arrow_left_32" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -32,8 +43,9 @@
                 style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:max="9999"
-                android:progress="1" />
+                android:max="99"
+                android:progress="1"
+                android:thumbTint="?attr/colorSecondaryVariant" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,8 +88,9 @@
                 style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
-                android:max="49"
-                android:progress="1" />
+                android:max="14"
+                android:progress="1"
+                android:thumbTint="?attr/colorSecondaryVariant" />
 
             <LinearLayout
                 android:layout_width="match_parent"

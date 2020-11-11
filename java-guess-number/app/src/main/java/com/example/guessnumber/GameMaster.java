@@ -10,6 +10,9 @@ public class GameMaster {
     private GameState _gameState;
     private int _guessesToFail;
 
+    public static final int DEFAULT_GUESS_RIGHT_LIMIT = 50;
+    public static final int DEFAULT_GUESSES_TO_FAIL = 7;
+
     public GameMaster(int guessRightLimit, int guessesToFail) {
         if (guessRightLimit < 1 || guessesToFail < 1) {
             throw new InvalidParameterException("Disallowed game settings. Game cannot be started.");

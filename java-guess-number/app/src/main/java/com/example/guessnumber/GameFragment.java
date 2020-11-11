@@ -42,7 +42,7 @@ public class GameFragment extends Fragment {
             try {
                 userInput = Integer.parseInt(inputEt.getText().toString());
             } catch (NumberFormatException e) {
-                Toast.makeText(view.getContext(), "You can input integers only!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "You can input non-negative integers only!", Toast.LENGTH_SHORT).show();
                 return;
             }
             GameMaster.GuessAnswer guessAnswer = gameMaster.makeGuess(userInput);
@@ -51,15 +51,15 @@ public class GameFragment extends Fragment {
         });
 
         Button startNewGameBtn = view.findViewById(R.id.newGameButton);
-        startNewGameBtn.setOnClickListener(v -> startNewGame(srdPref.getInt("maxRoll", 100),
-                srdPref.getInt("maxGuesses", 7)));
+        startNewGameBtn.setOnClickListener(v -> startNewGame(srdPref.getInt("maxRoll", GameMaster.DEFAULT_GUESS_RIGHT_LIMIT),
+                srdPref.getInt("maxGuesses", GameMaster.DEFAULT_GUESSES_TO_FAIL)));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        int guessRightLimit = srdPref.getInt("maxRoll", 100);
-        int maxGuesses = srdPref.getInt("maxGuesses", 7);
+        int guessRightLimit = srdPref.getInt("maxRoll", GameMaster.DEFAULT_GUESS_RIGHT_LIMIT);
+        int maxGuesses = srdPref.getInt("maxGuesses", GameMaster.DEFAULT_GUESSES_TO_FAIL);
         if (gameMaster == null ||
                 gameMaster.getMaxGuesses() != maxGuesses ||
                 gameMaster.getGuessRightLimit() != guessRightLimit) {

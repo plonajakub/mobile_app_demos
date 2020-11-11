@@ -90,24 +90,24 @@ public class SettingsFragment extends Fragment {
         Log.d("Settings", "Preferences written: maxGuesses = " + maxGuesses + " maxRoll = " + maxRoll);
     }
 
+    static private int usr2Sb(int progress) {
+        return progress - 1;
+    }
+
+    static private int sb2Usr(int progress) {
+        return progress + 1;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
 
-        maxGuessesSb.setProgress(usr2Sb(srdPref.getInt("maxGuesses", usr2Sb(7))));
-        maxRollSb.setProgress(usr2Sb(srdPref.getInt("maxRoll", usr2Sb(100))));
+        maxGuessesSb.setProgress(usr2Sb(srdPref.getInt("maxGuesses", GameMaster.DEFAULT_GUESSES_TO_FAIL)));
+        maxRollSb.setProgress(usr2Sb(srdPref.getInt("maxRoll", GameMaster.DEFAULT_GUESS_RIGHT_LIMIT)));
 
         Log.d("Settings",
                 "Preferences restored:" +
                         " maxGuesses = " + sb2Usr(maxGuessesSb.getProgress()) +
                         " maxRoll = " + sb2Usr(maxRollSb.getProgress()));
-    }
-
-    private int usr2Sb(int progress) {
-        return progress - 1;
-    }
-
-    private int sb2Usr(int progress) {
-        return progress + 1;
     }
 }

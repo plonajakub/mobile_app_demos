@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/keyboard_arrow_right_32" />
+
     <TextView
         android:id="@+id/gameStateTv"
         android:layout_width="wrap_content"
@@ -32,12 +43,13 @@
         android:id="@+id/inputGuessEt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/et_guess_number_hint"
+        android:backgroundTint="?attr/colorPrimary"
+        android:ems="7"
+        android:gravity="start"
         android:importantForAutofill="no"
         android:inputType="numberSigned"
-        android:gravity="center"
         android:textColor="?attr/colorOnPrimary"
+        android:textCursorDrawable="@null"
         app:layout_constraintBottom_toTopOf="@id/buttonsContainerLl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
