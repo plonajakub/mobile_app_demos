@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },
     titleText: {
-        fontSize: 18
+        fontSize: 20
     },
     slider: {
         width: 300,
@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     sliderStateText: {
-        fontSize: 14
+        fontSize: 17
     },
     sliderStateValue: {
-        marginLeft: 10
+        marginLeft: 5,
+        fontSize: 18
     }
 });

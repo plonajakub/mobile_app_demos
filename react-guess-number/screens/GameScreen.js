@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
         fontSize: 34,
         marginTop: 30,
         padding: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     gameFeedback: {
         fontSize: 21,
