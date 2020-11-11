@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import Slider from '@react-native-community/slider';
 
 export default sliderWithInfo = ({ title, minValue, initialValue, maxValue, onSlidingComplete }) => {
+    const { colors } = useTheme();
     const [value, setValue] = useState(initialValue);
     return (
         <View style={styles.baseContainer}>
@@ -14,6 +16,8 @@ export default sliderWithInfo = ({ title, minValue, initialValue, maxValue, onSl
             <Slider
                 step={1}
                 style={styles.slider}
+                thumbTintColor={colors.accentDark}
+                minimumTrackTintColor={colors.accent}
                 minimumValue={minValue}
                 maximumValue={maxValue}
                 value={initialValue}
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
     slider: {
         width: 300,
         padding: 5,
-        marginVertical: 10
+        marginVertical: 10,
     },
     sliderState: {
         flexDirection: 'row',

@@ -7,7 +7,7 @@ export default class GameMaster {
 
     #gameState;
 
-    static defaultGuessRighLimit = 100;
+    static defaultGuessRighLimit = 50;
     static defaultGuessesToFail = 7;
 
     static GameState = {

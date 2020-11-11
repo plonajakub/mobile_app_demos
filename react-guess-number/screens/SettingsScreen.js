@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SliderWithInfo from '../components/SliderWithInfo';
 import GameMaster from '../logic/GameMaster';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default settingsScreen = (props) => {
     const [maxRoll, setMaxRoll] = useState(GameMaster.defaultGuessRighLimit);
@@ -19,16 +20,22 @@ export default settingsScreen = (props) => {
     return (
         <View style={styles.rootContainer}>
 
+            <View style={styles.arrowLeftOuterContainer}>
+                <View style={styles.arrowLeftInnerContainer}>
+                    <MaterialIcons style={styles.arrowLeft} name="keyboard-arrow-left" size={32} color="black" />
+                </View>
+            </View>
+
             <View style={styles.settingsTextContainer}>
                 <Text style={styles.settingsText}>Settings</Text>
             </View>
 
-            <View style={styles.settingsMargin}>
+            <View style={styles.sliderContainerMargin}>
                 <View style={styles.sliderMargin}>
                     <SliderWithInfo title='Maximum roll value'
                         minValue={1}
                         initialValue={GameMaster.defaultGuessRighLimit}
-                        maxValue={1000}
+                        maxValue={100}
                         onSlidingComplete={maxRollChanged}
                     ></SliderWithInfo>
                 </View>
@@ -36,7 +43,7 @@ export default settingsScreen = (props) => {
                     <SliderWithInfo title='Maximum guesses'
                         minValue={1}
                         initialValue={GameMaster.defaultGuessesToFail}
-                        maxValue={50}
+                        maxValue={15}
                         onSlidingComplete={maxGuessesChanged}
                     ></SliderWithInfo>
                 </View>
@@ -49,7 +56,9 @@ export default settingsScreen = (props) => {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: 8,
     },
     settingsTextContainer: {
         marginTop: 50,
@@ -62,7 +71,17 @@ const styles = StyleSheet.create({
     sliderMargin: {
         marginTop: 25
     },
-    settingsMargin: {
-        marginBottom: 150
+    sliderContainerMargin: {
+        marginTop: 75,
+    },
+    arrowLeftOuterContainer: {
+        flexDirection: 'row',
+    },
+    arrowLeftInnerContainer: {
+        flex: 1,
+    },
+    arrowLeft: {
+        alignSelf: 'flex-start',
+        marginLeft: 8,
     }
 });
