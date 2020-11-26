@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guess_number/pages/game-page.dart';
 import 'package:flutter_guess_number/pages/settings-page.dart';
+import 'package:flutter_guess_number/shared/colors.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class CustomColors {
-  static const Color primaryColor = Color(0xFFFF8B80);
-  static const Color primaryColorDark = Color(0xFFC85B53);
-  static const Color accent = Color(0xFF80F4FF);
-  static const Color accentDark = Color(0xFF46C1CC);
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => FlutterStatusbarcolor.setStatusBarWhiteForeground(true));
     return MaterialApp(
       title: 'Guess Number',
       theme: ThemeData(
@@ -23,11 +20,11 @@ class MyApp extends StatelessWidget {
           primaryColorDark: CustomColors.primaryColorDark,
           accentColor: CustomColors.accent,
           backgroundColor: Colors.white,
-          brightness: Brightness.light,
           sliderTheme: SliderThemeData(
             thumbColor: CustomColors.accentDark,
             activeTrackColor: CustomColors.accent,
-            inactiveTrackColor: CustomColors.accent,
+            inactiveTrackColor: Colors.grey,
+            trackHeight: 1.0,
           )),
       home: Scaffold(
         resizeToAvoidBottomInset: true,

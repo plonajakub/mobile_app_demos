@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_guess_number/logic/game-master.dart';
+import 'package:flutter_guess_number/shared/strings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatelessWidget {
   static const String pageTitle = 'Settings';
@@ -27,11 +30,21 @@ class SettingsPage extends StatelessWidget {
           padding: EdgeInsets.all(40),
           child: Column(
             children: [
-              SliderWithInfo(title: 'Maximum roll value', rightLimit: 100),
+              SliderWithInfo(
+                title: 'Maximum roll value',
+                rightLimit: 100,
+                sharedPrefsName: ConstStrings.MAX_ROLL,
+                defaultValue: GameMaster.DEFAULT_GUESS_RIGHT_LIMIT,
+              ),
               SizedBox(
                 height: 25,
               ),
-              SliderWithInfo(title: 'Maximum guesses', rightLimit: 15),
+              SliderWithInfo(
+                title: 'Maximum guesses',
+                rightLimit: 15,
+                defaultValue: GameMaster.DEFAULT_MAX_GUESSES,
+                sharedPrefsName: ConstStrings.MAX_GUESSES,
+              ),
             ],
           ),
         )
@@ -43,10 +56,17 @@ class SettingsPage extends StatelessWidget {
 class SliderWithInfo extends StatefulWidget {
   static const String valueInfoText = 'Current value:';
   static const int leftLimit = 1;
+
   final String title;
   final int rightLimit;
+  final String sharedPrefsName;
+  final int defaultValue;
 
-  SliderWithInfo({@required this.title, @required this.rightLimit});
+  SliderWithInfo(
+      {@required this.title,
+      @required this.rightLimit,
+      @required this.sharedPrefsName,
+      @required this.defaultValue});
 
   @override
   _SliderWithInfoState createState() => _SliderWithInfoState();
@@ -55,8 +75,22 @@ class SliderWithInfo extends StatefulWidget {
 class _SliderWithInfoState extends State<SliderWithInfo> {
   double _currentSliderValue = 1;
 
-  _SliderWithInfoState() {
-    //load from shared prefs
+  void initState() {
+    super.initState();
+    initPrefs();
+  }
+
+  void initPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int prefsValue = prefs.getInt(widget.sharedPrefsName);
+    setState(() {
+      _currentSliderValue = prefsValue != null
+          ? prefsValue.toDouble()
+          : widget.defaultValue.toDouble();
+    });
+    print(
+        '${widget.sharedPrefsName} loaded, value: ${_currentSliderValue
+            .toInt()}');
   }
 
   @override
@@ -82,8 +116,12 @@ class _SliderWithInfoState extends State<SliderWithInfo> {
                 _currentSliderValue = value.roundToDouble();
               });
             },
-            onChangeEnd: (double value) {
-              // Save to shared prefs
+            onChangeEnd: (double value) async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setInt(widget.sharedPrefsName, value.round());
+              print(
+                  '${widget.sharedPrefsName} saved, value: ${prefs.getInt(
+                      widget.sharedPrefsName)}');
             },
           ),
           Row(
