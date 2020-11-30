@@ -11,7 +11,7 @@ export default class GameMaster {
     static defaultGuessesToFail = 7;
 
     static GameState = {
-        NotStarted: 0,
+        Started: 0,
         Running: 1,
         Finished: 2,
     };
@@ -35,7 +35,7 @@ export default class GameMaster {
         this.#maxGuesses = guessesToFail;
         this.#guessesToFail = guessesToFail;
         
-        this.#gameState = GameMaster.GameState.NotStarted;
+        this.#gameState = GameMaster.GameState.Started;
 
         this.makeGuess = this.makeGuess.bind(this);
     }
@@ -57,7 +57,7 @@ export default class GameMaster {
     }
 
     makeGuess(guess) {
-        if (this.#gameState === GameMaster.GameState.NotStarted) {
+        if (this.#gameState === GameMaster.GameState.Started) {
             this.#gameState = GameMaster.GameState.Running;
         }
 
@@ -88,8 +88,8 @@ export default class GameMaster {
 
     static decodeGameState(gameState) {
         switch (gameState) {
-            case GameMaster.GameState.NotStarted:
-                return "Game not started";
+            case GameMaster.GameState.Started:
+                return "Game started";
             case GameMaster.GameState.Running:
                 return "Game in progress...";
             case GameMaster.GameState.Finished:

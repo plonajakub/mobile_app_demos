@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ToastAndroid } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import GameMaster from '../logic/GameMaster';
+import * as SecureStore from 'expo-secure-store';
+import ConstStrings from '../shared/strings';
 
-export default settingsScreen = (props) => {
+export default settingsScreen = () => {
     const defaultGameFeedback = "Make a guess!";
+    const [gameMaster, setGameMaster] = useState(new GameMaster(GameMaster.defaultGuessRighLimit, GameMaster.defaultGuessesToFail));
     const [input, setInput] = useState("");
-    const [gameStateText, setGameStateText] = useState(GameMaster.decodeGameState(GameMaster.GameState.NotStarted));
+    const [gameStateText, setGameStateText] = useState(GameMaster.decodeGameState(GameMaster.GameState.Started));
     const [gameFeedbackText, setGameFeedbackText] = useState(defaultGameFeedback);
+    const [maxRollHint, setMaxRollHint] = useState(GameMaster.defaultGuessRighLimit);
+    useEffect(() => {
+        async function fetchData() {
+            const loadedMaxRollHint = await SecureStore.getItemAsync(ConstStrings.MAX_ROLL);
+            if (loadedMaxRollHint !== null) {
+                setMaxRollHint(parseInt(loadedMaxRollHint));
+                console.log(`${ConstStrings.MAX_ROLL} [hint] initialized: ${loadedMaxRollHint}`);
+            } else {
+                console.log(`${ConstStrings.MAX_ROLL} [hint] does not exist, used default: ${GameMaster.defaultGuessRighLimit}`);
+            }
+        }
+        fetchData();
+    }, []);
     const makeGuessCallback = () => {
-        const gameMaster = props.gameMasterRef.current;
         if (!/^\d+$/.test(input)) {
             ToastAndroid.show('You can input non-negative integers only!', ToastAndroid.SHORT);
             return;
@@ -22,93 +37,109 @@ export default settingsScreen = (props) => {
         const gameStateAsString = GameMaster.decodeGameState(gameMaster.gameState);
         setGameStateText(gameStateAsString);
     };
-    const newGameCallback = () => {
-        const oldGameMaster = props.gameMasterRef.current;
-        props.gameMasterRef.current = new GameMaster(oldGameMaster.guessRightLimit, oldGameMaster.maxGuesses);
-        console.log(`New game created with params guessRightLimit = ${oldGameMaster.guessRightLimit}, maxGuesses = ${oldGameMaster.maxGuesses}`);
-        const newGameMaster = props.gameMasterRef.current;
+    const newGameCallback = async () => {
+        let loadedMaxRoll = await SecureStore.getItemAsync(ConstStrings.MAX_ROLL);
+        if (loadedMaxRoll === null) {
+            loadedMaxRoll = GameMaster.defaultGuessRighLimit;
+        }
+        setMaxRollHint(loadedMaxRoll);
+        let loadedMaxGuesses = await SecureStore.getItemAsync(ConstStrings.MAX_GUESSES);
+        if (loadedMaxGuesses === null) {
+            loadedMaxGuesses = GameMaster.defaultGuessesToFail;
+        }
+        setGameMaster(new GameMaster(loadedMaxRoll, loadedMaxGuesses));
+        console.log(`New game created with params guessRightLimit = ${loadedMaxRoll}, maxGuesses = ${loadedMaxGuesses}`);
         setGameFeedbackText(defaultGameFeedback);
-        const gameStateAsString = GameMaster.decodeGameState(newGameMaster.gameState);
+        const gameStateAsString = GameMaster.decodeGameState(GameMaster.GameState.Started);
         setGameStateText(gameStateAsString);
     };
     return (
-        <View style={styles.rootContainer}>
-
-            <View style={styles.arrowRightOuterContainer}>
-                <View style={styles.arrowRightInnerContainer}>
-                    <MaterialIcons style={styles.arrowRight} name="keyboard-arrow-right" size={32} color="black" />
+        <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "padding"}
+            style={{ flex: 1 }}
+        >
+            <View style={styles.rootContainer}>
+                <View style={styles.arrowRightOuterContainer}>
+                    <View style={styles.arrowRightInnerContainer}>
+                        <MaterialIcons name="settings" size={24} color="black" />
+                        <MaterialIcons name="keyboard-arrow-right" size={32} color="black" />
+                    </View>
+                </View>
+                <Text style={styles.gameState}>{gameStateText}</Text>
+                <Text style={styles.gameFeedback}>{gameFeedbackText}</Text>
+                <View style={styles.userInputContainer}>
+                    <TextInput
+                        style={styles.userInput}
+                        value={input}
+                        keyboardType='numeric'
+                        onChangeText={input => setInput(input)}
+                        placeholder={`Range: 0 - ${maxRollHint}`}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <View style={styles.button}>
+                        <Button mode="contained" onPress={makeGuessCallback}>
+                            Check
+                        </Button>
+                    </View>
+                    <View style={styles.button}>
+                        <Button mode="contained" onPress={newGameCallback}>
+                            Restart
+                        </Button>
+                    </View>
                 </View>
             </View>
-
-            <Text style={styles.gameState}>{gameStateText}</Text>
-
-            <Text style={styles.gameFeedback}>{gameFeedbackText}</Text>
-
-            <TextInput style={styles.userInput}
-                value={input}
-                keyboardType='numeric'
-                onChangeText={input => setInput(input)}
-            />
-
-            <View style={styles.buttonContainer}>
-                <View style={styles.button}>
-                    <Button mode="contained" onPress={makeGuessCallback}>
-                        Check
-                </Button>
-                </View>
-                <View style={styles.button}>
-                    <Button mode="contained" onPress={newGameCallback}>
-                        New game
-                </Button>
-                </View>
-
-            </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 8,
-        marginBottom: 20,
-    },
-    gameState: {
-        fontSize: 34,
-        marginTop: 30,
-        padding: 10,
-        textAlign: 'center',
-        fontWeight: 'bold',
-    },
-    gameFeedback: {
-        fontSize: 21,
-        marginTop: 90,
-        padding: 10,
-        textAlign: 'center'
-    },
-    userInput: {
-        width: 150,
-        height: 40,
-        marginTop: 90,
-        textAlign: 'center'
-    },
-    buttonContainer: {
-        marginTop: 70,
-    },
-    button: {
-        marginTop: 10,
-        alignSelf: 'center',
     },
     arrowRightOuterContainer: {
+        flex: 1,
         flexDirection: 'row',
+        marginTop: 16,
     },
     arrowRightInnerContainer: {
         flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingRight: 8,
     },
-    arrowRight: {
-        alignSelf: 'flex-end',
-        marginRight: 8,
-    }
+    gameState: {
+        flex: 8,
+        marginTop: 64,
+        marginBottom: 16,
+        fontSize: 34,
+        fontWeight: 'bold',
+    },
+    gameFeedback: {
+        flex: 6,
+        fontSize: 21,
+        marginBottom: 16,
+    },
+    userInputContainer: {
+        flex: 5,
+    },
+    userInput: {
+        width: 200,
+        height: 40,
+        backgroundColor: 'white',
+        paddingHorizontal: 4,
+        paddingBottom: 8,
+        fontSize: 28,
+    },
+    buttonContainer: {
+        flex: 11,
+        paddingTop: 64,
+    },
+    button: {
+        marginBottom: 16,
+        alignSelf: 'center'
+    },
 });

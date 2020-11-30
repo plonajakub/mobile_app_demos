@@ -1,15 +1,13 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
 import GameScreen from './screens/GameScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import { Appbar } from 'react-native-paper';
-import GameMaster from './logic/GameMaster';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
-  const gameMasterRef = useRef(new GameMaster(GameMaster.defaultGuessRighLimit, GameMaster.defaultGuessesToFail));
   return (
     <PaperProvider theme={theme}>
       <View style={{ flex: 1 }}>
@@ -17,34 +15,18 @@ export default function App() {
         <Appbar.Header>
           <Appbar.Content title="Guess Number" />
         </Appbar.Header>
-        <ViewPager style={styles.viewPager} initialPage={0}>
-          <View style={styles.page} key="1">
-            <GameScreen gameMasterRef={gameMasterRef} />
+        <ViewPager style={{ flex: 1 }} initialPage={0}>
+          <View key="1">
+            <GameScreen />
           </View>
-          <View style={styles.page} key="2">
-            <SettingsScreen gameMasterRef={gameMasterRef} />
+          <View key="2">
+            <SettingsScreen />
           </View>
         </ViewPager>
       </View>
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  viewPager: {
-    flex: 1,
-  },
-  page: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 const theme = {
   ...DefaultTheme,
